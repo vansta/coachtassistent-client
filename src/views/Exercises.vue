@@ -19,21 +19,9 @@
 <script lang="ts">
 import ExerciseView from '@/components/Exercise/View.vue'
 import ExerciseEdit from '@/components/Exercise/Edit.vue'
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 
 import { IExercise, IOverviewViewModel } from '@/interfaces'
-
-import axios, {
-  AxiosRequestConfig,
-  AxiosResponse,
-  AxiosError,
-  AxiosInstance,
-  AxiosAdapter,
-  Cancel,
-  CancelToken,
-  CancelTokenSource,
-  Canceler
-} from 'axios';
 
 export default defineComponent({
   components: { ExerciseView, ExerciseEdit },
@@ -61,8 +49,7 @@ export default defineComponent({
     methods: {
         getExercises () {
             this.$api.getAllExercises()
-                .then((resp: AxiosResponse<IOverviewViewModel<IExercise>>) => this.exercises = resp.data.items)
-                // .then((response: AxiosResponse) => { console.log(response); return res.data; })
+                .then((data: IOverviewViewModel<IExercise>) => this.exercises = data.items)
         },
 
         editRow (row: IExercise) {

@@ -1,6 +1,8 @@
 import IExercise from './Exercise';
-import IOverviewViewModel from './IOverviewViewModel'
+import IOverviewViewModel from './IOverviewViewModel';
+import ISegment from './ISegment';
 export {
     IExercise,
-    IOverviewViewModel
+    IOverviewViewModel,
+    ISegment
 }
