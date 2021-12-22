@@ -19,9 +19,9 @@
 <script lang="ts">
 import ExerciseView from '@/components/Exercise/View.vue'
 import ExerciseEdit from '@/components/Exercise/Edit.vue'
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 
-import { IExercise } from '@/interfaces'
+import { IExercise, IOverviewViewModel } from '@/interfaces'
 
 import axios, {
   AxiosRequestConfig,
@@ -38,9 +38,9 @@ import axios, {
 export default defineComponent({
   components: { ExerciseView, ExerciseEdit },
     setup() {
-        const exercises: Array<IExercise> = []
+        // const exercises: Array<IExercise> = ref([]);
       return {
-          exercises
+        //   exercises
       }  
     },
     created () {
@@ -48,7 +48,7 @@ export default defineComponent({
     },
     data: () => ({
         readonly: true,
-        // exercises: [],
+        exercises: [] as Array<IExercise>,
 
         columns: [
             {
@@ -61,7 +61,7 @@ export default defineComponent({
     methods: {
         getExercises () {
             this.$api.getAllExercises()
-                .then((resp: AxiosResponse<Array<IExercise>>) => this.exercises = resp.data)
+                .then((resp: AxiosResponse<IOverviewViewModel<IExercise>>) => this.exercises = resp.data.items)
                 // .then((response: AxiosResponse) => { console.log(response); return res.data; })
         },
 
