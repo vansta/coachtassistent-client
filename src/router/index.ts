@@ -13,6 +13,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Training.vue')
   },
   {
+    path: '/segments',
+    name: 'Segments',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Segments.vue')
+  },
+  {
     path: '/exercises',
     name: 'Exercises',
     component: () => import(/* webpackChunkName: "about" */ '../views/Exercises.vue')
@@ -25,9 +30,15 @@ const routes: Array<RouteRecordRaw> = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
+  // {
+  //   path: '/segments/create',
+  //   name: "CreateSegment",
+  //   component: () => import(/* webpackChunkName: "about" */ '../components/Segment/Create.vue')
+  // },
   {
-    path: '/segments/create',
-    name: "CreateSegment",
+    path: '/segments/edit/:id?',
+    name: "EditSegment",
+    props: true,
     component: () => import(/* webpackChunkName: "about" */ '../components/Segment/Create.vue')
   }
 ]

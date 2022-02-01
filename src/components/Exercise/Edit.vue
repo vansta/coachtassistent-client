@@ -11,20 +11,24 @@
         </template>
         <template #description>
             <q-editor v-model="editExercise.description" height="50" />
+            <q-file outlined v-model="editExercise.attachments" multiple>
+                <template v-slot:prepend>
+                    <q-icon name="attach_file" />
+                </template>
+            </q-file>
         </template>
     </layout>
 </template>
 
 <script lang="ts">
+import { IExercise, } from "@/interfaces"
 import { defineComponent } from 'vue'
 
 import Layout from '@/components/Exercise/Layout.vue'
 export default defineComponent({
     name: 'Edit',
     props: {
-        exercise: {
-
-        }
+        exercise: {}
     },
     components: {
         Layout
@@ -36,14 +40,20 @@ export default defineComponent({
     },
     data () {
         return {
-            editExercise: this.exercise
+            editExercise: this.exercise as IExercise
         }
     },
     methods: {
         save () {
+            if (!this.editExercise.id) {
+                this.$api.postExercise(this.editExercise as IExercise)
+            }
             this.$emit('save');
         },
         remove () {
+            if (this.editExercise.id) {
+                this.$api.deleteExercise(this.editExercise.id)
+            }
             this.$emit('remove');
         }
     }

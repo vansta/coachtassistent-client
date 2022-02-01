@@ -4,7 +4,7 @@
             <div class="text-h6 text-left text-capitalize">{{ exercise.name }}</div>
         </template>
         <template #description>
-                {{ exercise.description }}
+                <div v-html="exercise.description"></div>
         </template>
     </layout>
 </template>

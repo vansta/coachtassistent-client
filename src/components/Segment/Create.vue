@@ -51,7 +51,14 @@ export default defineComponent({
         return {}
     },
     created () {
+        if (this.id) {
+            this.$api.getSegment(this.id)
+                .then((data: ISegment) => this.segment = data)
+        }
         this.getExercises();
+    },
+    props: {
+        id: String
     },
     data () {
         return {

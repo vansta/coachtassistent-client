@@ -1,7 +1,7 @@
 import { IExercise } from ".";
 
 interface ISegment {
-    id: number,
+    id: string,
     name: string,
     description: string,
     exercises: Array<IExercise>

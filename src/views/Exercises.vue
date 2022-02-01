@@ -60,14 +60,15 @@ export default defineComponent({
         },
         addRow () {
             this.exercises.push({
-                id: 100,
+                id: '',
                 name: '',
                 description: '',
-                edit: true
+                edit: true,
+                attachments: []
             })
         },
-        removeRow(row: IExercise) {
-            // this.exercises.
+        removeRow() {
+            this.getExercises()
         }
     }
 })

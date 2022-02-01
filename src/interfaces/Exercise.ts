@@ -1,8 +1,9 @@
 interface Exercise {
-    id: number,
+    id: string,
     name: string,
     description: string,
-    edit: boolean
+    edit: boolean,
+    attachments: Array<File>
 }
 
 export default Exercise
