@@ -3,7 +3,7 @@ interface Exercise {
     name: string,
     description: string,
     edit: boolean,
-    attachments: Array<File>
+    attachments: Array<string>
 }
 
 export default Exercise

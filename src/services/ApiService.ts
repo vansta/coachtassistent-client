@@ -30,7 +30,8 @@ export default {
             .then(resp => resp.data)
     },
 
-    postExercise (exercise: IExercise) : Promise<string> {
+    //POST
+    async postExercise (exercise: IExercise) : Promise<string> {
         const formData = new FormData();
         formData.append('name', exercise.name);
         formData.append('description', exercise.description);
@@ -38,11 +39,29 @@ export default {
             formData.append('attachments', a);
         })
 
-        return axiosInstance.post('Exercise', formData);
+        const resp = await axiosInstance.post('Exercise', formData)
+        return resp.data
     },
 
     postSegment (segment: ISegment) : Promise<string> {
         return axiosInstance.post('Segment', segment);
+    },
+
+    //PUT
+    async putExercise (exercise: IExercise) : Promise<string> {
+        const formData = new FormData();
+        formData.append('id', exercise.id);
+        formData.append('name', exercise.name);
+        formData.append('description', exercise.description);
+        exercise.attachments.forEach(a => {
+            formData.append('attachments', a);
+        })
+
+        const resp = await axiosInstance.put('Exercise', formData)
+        return resp.data
+    },
+    putSegment (segment: ISegment) : Promise<string> {
+        return axiosInstance.put('Segment', segment);
     },
 
     //DELETE

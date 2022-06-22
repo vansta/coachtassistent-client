@@ -20,20 +20,24 @@
         <q-splitter v-model="splitterValue">
             <template v-slot:before>
                 <div class="drop-zone" @drop="drop($event)" @dragover.prevent @dragenter.prevent>
-                    <exercise-view v-for="exercise in segment.exercises" :key="exercise.id" class="q-ma-xs" :exercise="exercise"></exercise-view>
+                    <exercise-view v-for="exercise in segment.exercises" :key="exercise.id" class="q-ma-xs" :exercise="exercise"  :draggable="true" @dragstart="startToDrag($event, exercise)"></exercise-view>
                 </div>
                 
             </template>
             <template v-slot:after>
+                <div class="drop-zone" @drop="drop($event, true)" @dragover.prevent @dragenter.prevent>
                 <q-table
                     grid
-                    :rows="exercises"
+                    :rows="availableExercises"
                     :loading="loading"
                 >
                     <template v-slot:item="props">
-                        <exercise-view v-if="!props.row.edit" class="q-ma-xs" :exercise="props.row" :draggable="true" @dragstart="startToDrag($event, props.row)"></exercise-view>
+                        
+                            <exercise-view v-if="!props.row.edit" class="q-ma-xs" :exercise="props.row" :draggable="true" @dragstart="startToDrag($event, props.row)"></exercise-view>
+                        
                     </template>
                 </q-table>
+                </div>
             </template>
         </q-splitter>
     </q-page>
@@ -81,7 +85,13 @@ export default defineComponent({
         },
 
         save () {
-            this.$api.postSegment(this.segment);
+            if (!this.segment.id) {
+                this.$api.postSegment(this.segment)
+                    .then(resp => this.segment.id = resp);
+            }
+            else {
+                this.$api.putSegment(this.segment);
+            }
         },
 
 
@@ -93,10 +103,22 @@ export default defineComponent({
             }
             
         },
-        async drop (evt: DragEvent) {
+        async drop (evt: DragEvent, remove: boolean) {
             const exerciseId = evt.dataTransfer?.getData('id') as string;
-            const exercise = await this.$api.getExercise(exerciseId);
-            this.segment.exercises.push(exercise)
+            if (remove) {
+                const index = this.segment.exercises.findIndex(e => e.id === exerciseId);
+                this.segment.exercises.splice(index, 1);
+            }
+            else {
+                const exercise = this.exercises.find(e => e.id === exerciseId) as IExercise;
+                this.segment.exercises.push(exercise)
+            }
+            
+        }
+    },
+    computed: {
+        availableExercises () {
+            return this.exercises.filter(e => this.segment.exercises.findIndex(x => x.id === e.id) < 0);
         }
     }
 })

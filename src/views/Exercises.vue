@@ -57,6 +57,7 @@ export default defineComponent({
         },
         saveRow (row: IExercise) {
             row.edit = false;
+            this.getExercises();
         },
         addRow () {
             this.exercises.push({
@@ -68,7 +69,7 @@ export default defineComponent({
             })
         },
         removeRow() {
-            this.getExercises()
+            this.getExercises();
         }
     }
 })

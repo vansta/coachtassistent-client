@@ -47,14 +47,24 @@ export default defineComponent({
         save () {
             if (!this.editExercise.id) {
                 this.$api.postExercise(this.editExercise as IExercise)
+                    .then(resp => {
+                        this.editExercise.id = resp;
+                        this.$emit('save');
+                    })
             }
-            this.$emit('save');
+            else {
+                this.$api.putExercise(this.editExercise as IExercise)
+                    .then(() => this.$emit('save'))
+            }
         },
         remove () {
             if (this.editExercise.id) {
                 this.$api.deleteExercise(this.editExercise.id)
+                    .then(() => this.$emit('remove'))
             }
-            this.$emit('remove');
+            else {
+                this.$emit('remove');
+            }
         }
     }
 })
