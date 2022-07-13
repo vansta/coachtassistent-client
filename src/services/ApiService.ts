@@ -1,5 +1,7 @@
-import { IExercise, IOverviewViewModel, ISegment } from "@/interfaces"
+import { IExercise, IOverviewViewModel, ISegment, ICredentials } from "@/interfaces"
 import axios from "axios"
+
+import sha256 from 'crypto-js/sha256';
 
 const axiosInstance = axios.create({
     baseURL: 'https://localhost:7210/api/'
@@ -45,6 +47,19 @@ export default {
 
     postSegment (segment: ISegment) : Promise<string> {
         return axiosInstance.post('Segment', segment);
+    },
+
+    async login ({ userName, password}: ICredentials) : Promise<void> {
+        
+        const passwordHash = sha256(password).toString();// createHash('sha256').update(password).digest('hex');
+
+        console.log(passwordHash)
+        const resp = await axiosInstance.post('Authentication', {
+            userName,
+            passwordHash
+        });
+
+        console.log(resp);
     },
 
     //PUT
